@@ -33,12 +33,12 @@ const emailValidator = [
 ];
 
 const otpValidator = [
-  body("user.email", "email is not Empty").not().isEmpty(),
-  body("user.email", "Invalid email").isEmail(),
+  body("email", "email is not Empty").not().isEmpty(),
+  body("email", "Invalid email").isEmail(),
 ];
 
 const passwordValidator = [
-  body("user.password", "password is not Empty").not().isEmpty(),
+  body("password", "password is not Empty").not().isEmpty(),
 ];
 
 export {
