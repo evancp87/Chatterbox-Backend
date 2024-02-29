@@ -11,7 +11,10 @@ import { db } from "../db";
 dotenv.config();
 
 const loginUser = async (req: Request, res: Response) => {
-  handleAuthValidation(req, res);
+  const validationSentResponse = await handleAuthValidation(req, res);
+  if (validationSentResponse) {
+    return;
+  }
   const { email, password } = req.body;
 
   try {
@@ -36,7 +39,10 @@ const loginUser = async (req: Request, res: Response) => {
 };
 
 const registerUser = async (req: Request, res: Response) => {
-  handleAuthValidation(req, res);
+  const validationSentResponse = await handleAuthValidation(req, res);
+  if (validationSentResponse) {
+    return;
+  }
 
   const { email, password } = req.body;
   try {
@@ -181,12 +187,15 @@ const logoutUser = async (req: Request, res: Response) => {
 };
 
 const resetPassword = async (req: Request, res: Response) => {
-  handleAuthValidation(req, res);
+  const validationSentResponse = await handleAuthValidation(req, res);
+  if (validationSentResponse) {
+    return;
+  }
   const { email } = req.body;
 
   try {
     const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: "http://localhost:3000/update-password",
+      redirectTo: "http://localhost:3000/update",
     });
     if (error) {
       console.error("Error sending password reset email:", error.message);
@@ -235,8 +244,11 @@ const updatePassword = async (req: Request, res: Response) => {
 };
 
 const initiateOtpSignIn = async (req: Request, res: Response) => {
-  handleAuthValidation(req, res);
+  const validationSentResponse = await handleAuthValidation(req, res);
 
+  if (validationSentResponse) {
+    return;
+  }
   const { email } = req.body;
 
   try {
@@ -265,7 +277,10 @@ const initiateOtpSignIn = async (req: Request, res: Response) => {
 };
 
 const verifyOtp = async (req: Request, res: Response) => {
-  handleAuthValidation(req, res);
+  const validationSentResponse = await handleAuthValidation(req, res);
+  if (validationSentResponse) {
+    return;
+  }
   const { email, otp } = req.body;
 
   try {

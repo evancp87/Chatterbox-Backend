@@ -10,19 +10,21 @@ const loginValidator = [
 ];
 
 const createValidator = [
-  body("user.email", "email is not Empty").not().isEmpty(),
-  body("user.email", "Invalid email").isEmail(),
-  body("user.password", "password is not Empty").not().isEmpty(),
-  body("user.password", "The minimum password length is 6 characters").isLength(
-    { min: 6 },
-  ),
+  body("email", "email is not Empty").not().isEmpty(),
+  body("email", "Invalid email").isEmail(),
+  body("password", "password is not Empty").not().isEmpty(),
+  body("password", "The minimum password length is 6 characters").isLength({
+    min: 6,
+  }),
 ];
 
 const handleAuthValidation = async (req: Request, res: Response) => {
   const validationErrors = validationResult(req);
   if (!validationErrors.isEmpty()) {
-    return res.status(400).json({ errors: validationErrors.array() });
+    res.status(400).json({ errors: validationErrors.array() });
+    return true;
   }
+  return false;
 };
 
 const emailValidator = [
