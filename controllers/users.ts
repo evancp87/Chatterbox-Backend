@@ -22,7 +22,7 @@ const loginUser = async (req: Request, res: Response) => {
       email,
       password,
     });
-
+    console.log(data, "checig the data");
     if (error) {
       console.error("Authentication error:", error.message);
       res.status(401).send(error.message);
@@ -44,12 +44,17 @@ const registerUser = async (req: Request, res: Response) => {
     return;
   }
 
-  const { email, password } = req.body;
+  const { email, password, username } = req.body;
   try {
     const { data, error } = await supabase.auth.signUp({
       email,
       // username,
       password,
+      options: {
+        data: {
+          username,
+        },
+      },
     });
 
     if (error) {
@@ -333,6 +338,13 @@ const refreshToken = async (req: Request, res: Response) => {
 // TODO ORM schema
 const friendsList = () => {};
 const friend = () => {};
+const getProfile = async (req: Request, res: Response) => {
+  const { data, error } = await supabase.from("messages").select(`
+  id, 
+  name, 
+  cities ( id, name )
+`);
+};
 
 export {
   registerUser,
